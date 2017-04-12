@@ -32,15 +32,9 @@ LOCAL_CFLAGS := -DLOG_TAG=\"SensorsHal\" -DPLATFORM_SDK_VERSION=$(PLATFORM_SDK_V
 LOCAL_SRC_FILES := 						\
 				sensors.c 				\
 				nusensors.cpp 			\
-				GyroSensor.cpp			\
 				InputEventReader.cpp	\
 				SensorBase.cpp			\
-				AkmSensor.cpp			\
-				MmaSensor.cpp	\
-				LightSensor.cpp	\
-				ProximitySensor.cpp		\
-				PressureSensor.cpp		\
-				TemperatureSensor.cpp		\
+				MmaSensor.cpp
 				
 LOCAL_SHARED_LIBRARIES := liblog \
 	libcutils \
@@ -72,8 +66,10 @@ else
 ifeq ($(strip $(BOARD_SENSOR_COMPASS_AK09911)), true)
 include $(LOCAL_PATH)/akm09911/Android_akm09911.mk
 else
+ifeq ($(strip $(BOARD_SENSOR_COMPASS_AK8975)), true)
 include $(LOCAL_PATH)/akm8975/Android_akm8975.mk
-endif
+endif # BOARD_SENSOR_COMPASS_AK8975
+endif # !BOARD_SENSOR_COMPASS_AK09911
 endif # !BOARD_SENSOR_COMPASS_AK8963
 
 endif # !TARGET_SIMULATOR

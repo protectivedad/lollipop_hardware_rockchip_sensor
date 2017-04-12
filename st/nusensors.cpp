@@ -151,13 +151,14 @@ struct sensors_poll_context_t {
 
 private:
     enum {		
-        light           = 0,
+/*        light           = 0,
         proximity       = 1,
         mma             = 2,
         akm             = 3,
         gyro            = 4, 
         pressure        = 5,
-        temperature		= 6,
+        temperature		= 6, */
+        mma             = 0,
         numSensorDrivers,
         numFds,
     };
@@ -172,7 +173,7 @@ private:
         switch (handle) {
             case ID_A:
                 return mma;
-            case ID_M:
+/*            case ID_M:
 			case ID_O:
                 return akm;	
             case ID_P:
@@ -184,7 +185,7 @@ private:
 			case ID_PR:
 				return pressure;
 			case ID_TMP:
-				return temperature;
+				return temperature;*/
         }
         return -EINVAL;
     }
@@ -195,7 +196,7 @@ private:
 sensors_poll_context_t::sensors_poll_context_t()
 {
 	D("Entered.");
-	
+/*	
     mSensors[light] = new LightSensor();
     mPollFds[light].fd = mSensors[light]->getFd();
     mPollFds[light].events = POLLIN;
@@ -205,13 +206,13 @@ sensors_poll_context_t::sensors_poll_context_t()
     mPollFds[proximity].fd = mSensors[proximity]->getFd();
     mPollFds[proximity].events = POLLIN;
     mPollFds[proximity].revents = 0;
-	
+*/	
 
     mSensors[mma] = new MmaSensor();
     mPollFds[mma].fd = mSensors[mma]->getFd();
     mPollFds[mma].events = POLLIN;
     mPollFds[mma].revents = 0;
-
+/*
     mSensors[akm] = new AkmSensor();
     mPollFds[akm].fd = mSensors[akm]->getFd();
     mPollFds[akm].events = POLLIN;
@@ -231,7 +232,7 @@ sensors_poll_context_t::sensors_poll_context_t()
     mPollFds[temperature].fd = mSensors[temperature]->getFd();
     mPollFds[temperature].events = POLLIN;
     mPollFds[temperature].revents = 0;
-
+*/
     int wakeFds[2];
     int result = pipe(wakeFds);
     LOGE_IF(result<0, "error creating wake pipe (%s)", strerror(errno));
